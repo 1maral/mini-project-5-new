@@ -1,3 +1,13 @@
+import java.util.NoSuchElementException;
+
+import edu.grinnell.csc207.util.AssociativeArray;
+import edu.grinnell.csc207.util.KeyNotFoundException;
+import edu.grinnell.csc207.util.NullKeyException;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Creates a set of mappings of an AAC that has two levels,
  * one for categories and then within each category, it has
@@ -6,11 +16,21 @@
  * and updating the set of images that would be shown and handling
  * an interactions.
  * 
- * @author Catie Baker & YOUR NAME HERE
+ * @author Catie Baker & Maral Bat-Erdene
  *
  */
 public class AACMappings implements AACPage {
-	
+	// +--------+------------------------------------------------------
+	// | Fields |
+	// +--------+
+	/**
+	 * An Associative Array that maps either filenames or names to categories.
+	 */
+	AssociativeArray<String, String> arrCat;
+
+	// +--------------+------------------------------------------------
+	// | Constructors |
+	// +--------------+
 	/**
 	 * Creates a set of mappings for the AAC based on the provided
 	 * file. The file is read in to create categories and fill each
@@ -30,11 +50,29 @@ public class AACMappings implements AACPage {
 	 * and food has french fries and watermelon and clothing has a 
 	 * collared shirt
 	 * @param filename the name of the file that stores the mapping information
+	 * @throws IOException 
 	 */
-	public AACMappings(String filename) {
+	public AACMappings(String filename) throws IOException {
+		FileReader myFile = new FileReader(filename);
+		BufferedReader reader = new BufferedReader(myFile);
 
-	}
+		String line = reader.readLine();
+
+		while (line != null) {
+			String[] lineArr = line.split(" ", 2);
+			if (line.charAt(0) == '>'){
+				arrCat.set();
+				System.out.println("its category");
+			}
+			// read next line
+			line = reader.readLine();
+		} // while
+		reader.close();
+	} // AACMappings
 	
+	// +------------------+--------------------------------------------
+	// | Standard Methods |
+	// +------------------+
 	/**
 	 * Given the image location selected, it determines the action to be
 	 * taken. This can be updating the information that should be displayed
@@ -50,7 +88,7 @@ public class AACMappings implements AACPage {
 	 * category
 	 */
 	public String select(String imageLoc) {
-		return null;
+		return "television";
 	}
 	
 	/**
@@ -59,7 +97,8 @@ public class AACMappings implements AACPage {
 	 * it should return an empty array
 	 */
 	public String[] getImageLocs() {
-		return null;
+		return new String[] { "img/food/icons8-french-fries-96.png", "img/food/icons8-watermelon-96.png" }; // STUB
+
 	}
 	
 	/**
@@ -112,7 +151,7 @@ public class AACMappings implements AACPage {
 	 * on the default category
 	 */
 	public String getCategory() {
-		return null;
+		return "food";
 	}
 
 
@@ -125,5 +164,5 @@ public class AACMappings implements AACPage {
 	 */
 	public boolean hasImage(String imageLoc) {
 		return false;
-	}
-}
+	} // hasImage(String)
+} // class AACMappings

@@ -1,3 +1,5 @@
+import edu.grinnell.csc207.util.KeyNotFoundException;
+import edu.grinnell.csc207.util.NullKeyException;
 import java.util.NoSuchElementException;
 
 /**
@@ -15,16 +17,18 @@ public interface AACPage {
 	 * a pairing of image to a category or similar
 	 * @param imageLoc the location of the image
 	 * @param text the text that image should speak
+	 * @throws NullKeyException 
 	 */
-	public void addItem(String imageLoc, String text);
+	public void addItem(String imageLoc, String text) throws NullKeyException;
 	
 	/**
 	 * Returns an array of all the images to be displayed on
 	 * the page
 	 * @return the array of image locations; if there are no images,
 	 * it should return an empty array
+	 * @throws Exception 
 	 */
-	public String[] getImageLocs();
+	public String[] getImageLocs() throws Exception;
 	
 	/**
 	 * Returns the name of the current category
@@ -39,10 +43,11 @@ public interface AACPage {
 	 * @param imageLoc the location where the image is stored
 	 * @return if there is text to be spoken, it returns that information, otherwise
 	 * it returns the empty string
+	 * @throws KeyNotFoundException 
 	 * @throws NoSuchElementException if the image provided is not in the current 
 	 * category
 	 */
-	public String select(String imageLoc);
+	public String select(String imageLoc) throws KeyNotFoundException;
 	
 	
 	/**
