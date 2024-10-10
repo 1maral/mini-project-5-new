@@ -44,11 +44,8 @@ public class AAC implements ActionListener {
 
 	/**
 	 * Creates the AAC display for the file provided
-	 * 
-	 * @param filename the name of the file that contains the images and text that
-	 *                 will be in the AAC
-	 */
-	public AAC(String filename) {
+	 *     assertEquals("Apple", category.select("imageA"));
+ing filename) {
 		// this.page = new AACCategory("test");
 		this.page = new AACMappings(filename);
 		this.images = this.page.getImageLocs();
