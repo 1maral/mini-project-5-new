@@ -38,9 +38,9 @@ public class AACCategory implements AACPage {
 		this.arrWords = new AssociativeArray<String, String>();
 	} // AACCategory
 	
-	// +------------------+--------------------------------------------
-	// | Standard Methods |
-	// +------------------+
+  // +----------------+----------------------------------------------
+  // | Public Methods |
+  // +----------------+
 
 	/**
 	 * Adds the image location, text pairing to the category
@@ -48,8 +48,12 @@ public class AACCategory implements AACPage {
 	 * @param text the text that image should speak
 	 * @throws NullKeyException 
 	 */
-	public void addItem(String imageLoc, String text) throws NullKeyException {
-		this.arrWords.set(imageLoc, text);
+	public void addItem(String imageLoc, String text) {
+		try {
+			this.arrWords.set(imageLoc, text);
+		} catch (NullKeyException e) {
+			// Do nothing
+		} // try/catch
 	} // addItem()
 
 	/**
@@ -58,22 +62,28 @@ public class AACCategory implements AACPage {
 	 * it should return an empty array
 	 * @throws Exception 
 	 */
-	public String[] getImageLocs() throws Exception {
+	public String[] getImageLocs() {
+	
 		// Create an array to hold the image locations
 		// sized according to the number of images in the category
 		String[] arrImg = new String[this.arrWords.size()];
 
-		// Check if there are any images
-		if (this.arrWords.size() == 0) {
-			// Return the empty array
+		try {
+			// Check if there are any images
+			if (this.arrWords.size() == 0) {
+				// Return the empty array
+				return (new String[] {});
+			} else {
+				// Iterate through the category to get the image locations
+				for (int i = 0; i < this.arrWords.size(); i++){
+					arrImg[i] = (String) this.arrWords.getKey(i);
+				} // for
+				return arrImg;
+			} // if/else
+		} catch (Exception e) {
+			// Return the empty array if there's exception
 			return (new String[] {});
-		} else {
-			// Iterate through the category to get the image locations
-			for (int i = 0; i < this.arrWords.size(); i++){
-				arrImg[i] = (String) this.arrWords.getKey(i);
-			} // for
-			return arrImg;
-		} // if/else
+		}
 	} //getImageLocs()
 
 	/**

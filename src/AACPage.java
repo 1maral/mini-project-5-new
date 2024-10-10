@@ -19,7 +19,7 @@ public interface AACPage {
 	 * @param text the text that image should speak
 	 * @throws NullKeyException 
 	 */
-	public void addItem(String imageLoc, String text) throws NullKeyException;
+	public void addItem(String imageLoc, String text);
 	
 	/**
 	 * Returns an array of all the images to be displayed on
@@ -28,7 +28,7 @@ public interface AACPage {
 	 * it should return an empty array
 	 * @throws Exception 
 	 */
-	public String[] getImageLocs() throws Exception;
+	public String[] getImageLocs();
 	
 	/**
 	 * Returns the name of the current category

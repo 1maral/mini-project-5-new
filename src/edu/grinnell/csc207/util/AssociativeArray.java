@@ -165,7 +165,7 @@ public class AssociativeArray<K, V> {
     // Check if index is out of bounds
     if (index < 0 || index >= this.size) {
       throw new Exception("Error: Index is out of bounds - " + index);
-    }
+    } // if
 
     // Return the key at the specified index
     return this.pairs[index].key;
