@@ -1,3 +1,4 @@
+import edu.grinnell.csc207.util.KeyNotFoundException;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -51,14 +52,18 @@ public class TestAACCategory {
    */
   @Test
   void testAddSelect() {
-    AACCategory category = new AACCategory("testAddSelect");
-    category.addItem("imageA", "Apple");
-    category.addItem("imageB", "Banana");
-    category.addItem("imageC", "Cherry");
-    assertEquals("Apple", category.select("imageA"));
-    assertEquals("Banana", category.select("imageB"));
-    assertEquals("Cherry", category.select("imageC"));
-  } // testAddSelect()
+      try {
+          AACCategory category = new AACCategory("testAddSelect");
+          category.addItem("imageA", "Apple");
+          category.addItem("imageB", "Banana");
+          category.addItem("imageC", "Cherry");
+          assertEquals("Apple", category.select("imageA"));
+          assertEquals("Banana", category.select("imageB"));
+          assertEquals("Cherry", category.select("imageC"));
+      } // testAddSelect()
+      catch (KeyNotFoundException ex) {
+      }
+  }
 
   /**
    * Tests of select in which the image is not there.

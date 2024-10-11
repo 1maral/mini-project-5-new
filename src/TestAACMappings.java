@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
+
+import edu.grinnell.csc207.util.KeyNotFoundException;
+
 import org.junit.jupiter.api.BeforeAll;
 
 import java.nio.file.Files;
@@ -158,8 +161,7 @@ public class TestAACMappings {
     mappings = new AACMappings(configFile(""));
     assertEquals("", mappings.getCategory(), "top level, empty config");
 
-    mappings = 
-        new AACMappings(configFile("one food\ntwo clothes\nthree misc"));
+    mappings = new AACMappings(configFile("one food\ntwo clothes\nthree music\nfour final"));
     assertEquals("", mappings.getCategory(), "top level, empty categories");
 
     mappings = 
@@ -173,9 +175,10 @@ public class TestAACMappings {
    *
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testGetCategoryA() throws IOException {
+  public void testGetCategoryA() throws IOException, KeyNotFoundException {
     AACMappings mappings = 
         new AACMappings(configFile("one uno\ntwo dos\nthree tres"));
     assertEquals("", mappings.select("one"), "selecting one");
@@ -196,9 +199,10 @@ public class TestAACMappings {
    *
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testGetCategoryB() throws IOException {
+  public void testGetCategoryB() throws IOException, KeyNotFoundException {
     AACMappings mappings = new AACMappings(configFile(TEST_CONFIG));
     assertEquals("", mappings.select("one"), "selecting one");
     assertEquals("fruit", mappings.getCategory(), "selected one");
@@ -232,9 +236,10 @@ public class TestAACMappings {
    *
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testImageLocsTopLevel() throws IOException {
+  public void testImageLocsTopLevel() throws IOException, KeyNotFoundException {
     AACMappings mappings = 
         new AACMappings(configFile("uno one\ndos two\ntres three\n"));
 
@@ -278,9 +283,10 @@ public class TestAACMappings {
    *
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testImageLocsNested() throws IOException {
+  public void testImageLocsNested() throws IOException, KeyNotFoundException {
     AACMappings mappings = new AACMappings(configFile(TEST_CONFIG));
 
     String[] images = mappings.getImageLocs();
@@ -325,9 +331,10 @@ public class TestAACMappings {
    * 
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testSelectStandard() throws IOException {
+  public void testSelectStandard() throws IOException, KeyNotFoundException {
     AACMappings mappings = new AACMappings(configFile(TEST_CONFIG));
 
     assertEquals("", mappings.select("one"), "one is a category");
@@ -354,9 +361,10 @@ public class TestAACMappings {
    * 
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testSelectExceptional() throws IOException {
+  public void testSelectExceptional() throws IOException, KeyNotFoundException {
     AACMappings mappings = new AACMappings(configFile(""));
     String str;
 
@@ -422,9 +430,10 @@ public class TestAACMappings {
    *
    * @throws IOException
    *   If an IO operation fails.
+   * @throws KeyNotFoundException 
    */
   @Test
-  public void testAdd() throws IOException {
+  public void testAdd() throws IOException, KeyNotFoundException {
     AACMappings mappings = new AACMappings(configFile(""));
 
     mappings.addItem("p", "pizza toppings");
