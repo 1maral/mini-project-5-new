@@ -98,12 +98,15 @@ public class AACCategory implements AACPage {
 	 * Returns the text associated with the given image in this category
 	 * @param imageLoc the location of the image
 	 * @return the text associated with the image
-	 * @throws KeyNotFoundException 
 	 * @throws NoSuchElementException if the image provided is not in the current
 	 * 		   category
 	 */
-	public String select(String imageLoc) throws KeyNotFoundException {
-		return this.arrWords.get(imageLoc);
+	public String select(String imageLoc) throws NoSuchElementException {
+		try {
+			return this.arrWords.get(imageLoc);
+		} catch (KeyNotFoundException e) {
+			throw new NoSuchElementException();
+		}
 	} // select(String)
 
 	/**

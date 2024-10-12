@@ -75,30 +75,27 @@ public class AACMappings implements AACPage {
 
 			while (line != null) {
 				String[] lineArr = line.split(" ", 2);
-				// Check if the line is a category (does not start with '>')
-				if (line.charAt(0) != '>'){
-					String imageLoc = lineArr[0];
-					String category = lineArr[1];
-					
-					// Create a new AACCategory object and add it to arrCat
-					this.currentCategory = new AACCategory(category);
-					try {
-							this.arrCat.set(imageLoc, this.currentCategory);
-					} catch (NullKeyException e) {
-							//Do nothing
-					} // try/catch
-				} else {
-					// If the line starts with '>', it's an item for the current category
-					if (this.currentCategory != this.defaultCategory) {
-							String itemImgLoc = lineArr[0].substring(1);
-							String itemText = lineArr[1];
 
-							// Add the item to the current category
-							this.currentCategory.addItem(itemImgLoc, itemText);
+				if (lineArr.length > 1) {
+					// Check if the line is a category (does not start with '>')
+					if (line.charAt(0) != '>'){
+						this.reset();
+						String imageLoc = lineArr[0];
+						String text = lineArr[1];
+						this.addItem(imageLoc, text);
+						this.currentCategory = this.arrCat.get(imageLoc);
 					} else {
-						System.err.println("Error: Attempted to add item to home");
+						// If the line starts with '>', it's an item for the current category
+						// which is not a home page
+						if (this.currentCategory != this.defaultCategory) {
+								String imageLoc = lineArr[0].substring(1);
+								String text = lineArr[1];
+								this.addItem(imageLoc, text);
+						} else {
+							System.err.println("Error: Attempted to add item to home");
+						} // if/else
 					} // if/else
-				} // if/else
+				} // if
 				// read next line
 				line = reader.readLine();
 			} // while
@@ -106,7 +103,6 @@ public class AACMappings implements AACPage {
 			reader.close();
 		} catch (Exception ex) {
 			// Do nothing
-			System.err.println("Error: " + ex.getMessage());
 		} // try/catch
 	} // AACMappings
 	
@@ -127,7 +123,7 @@ public class AACMappings implements AACPage {
 	 * @throws NoSuchElementException if the image provided is not in the current 
 	 * category
 	 */
-public String select(String imageLoc) throws KeyNotFoundException {
+public String select(String imageLoc) throws NoSuchElementException {
 	try {
 		// Check if the image location corresponds to a category in arrCat
 		if (this.currentCategory == this.defaultCategory && arrCat.hasKey(imageLoc)) {
@@ -138,13 +134,13 @@ public String select(String imageLoc) throws KeyNotFoundException {
 		} else if (this.currentCategory != this.defaultCategory && this.currentCategory.arrWords.hasKey(imageLoc)) {
 			// Check if we are in a valid category and the image is in that category
 			// Return the text associated with the image
-			return this.currentCategory.arrWords.get(imageLoc);
+			return this.currentCategory.select(imageLoc);
 		} else {
 			// If the image location is not found, throw an exception
-			throw new KeyNotFoundException();
+			throw new NoSuchElementException();
 		} // if/else
 	} catch (KeyNotFoundException e) {
-			throw new KeyNotFoundException();
+			throw new NoSuchElementException();
 	} // try/catch
 } // select(String)
 
@@ -168,28 +164,10 @@ public String select(String imageLoc) throws KeyNotFoundException {
 				} // try/catch
 			} // for
 			return catImgLocs;
-	  	} // if
-
-		// Set the size as the number of items in the category
-		int currentSize = this.currentCategory.arrWords.size();
-
-		// If there are no items, return an empty array
-		if (currentSize == 0) {
-			return new String[] {};
-		} // if
-
-		// Create an array to hold the image locations
-		String[] imgLocs = new String[currentSize];
-
-		for (int i = 0; i < currentSize; i++){
-			try {
-				imgLocs[i] = this.currentCategory.arrWords.getKey(i);
-			} catch (Exception e) {
-				// Do nothing
-			} // try/catch
-		} // for
-		return imgLocs;
-	}
+	  	} else {
+				return this.currentCategory.getImageLocs();
+			} // if/else
+	} // getImageLocs();
 	
 	/**
 	 * Resets the current category of the AAC back to the default
@@ -263,9 +241,10 @@ public String select(String imageLoc) throws KeyNotFoundException {
 			} catch (NullKeyException e) {
 				// Do Nothing
 			} // try/catch
-		} // if
-		// Add the new item (image location and text) to the current category
-    this.currentCategory.addItem(imageLoc, text);
+		} else {
+			// Add the new item (image location and text) to the current category
+			this.currentCategory.addItem(imageLoc, text);
+		}
 	} // addItem
 
 

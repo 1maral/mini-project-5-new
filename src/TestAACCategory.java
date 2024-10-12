@@ -52,17 +52,13 @@ public class TestAACCategory {
    */
   @Test
   void testAddSelect() {
-      try {
-          AACCategory category = new AACCategory("testAddSelect");
-          category.addItem("imageA", "Apple");
-          category.addItem("imageB", "Banana");
-          category.addItem("imageC", "Cherry");
-          assertEquals("Apple", category.select("imageA"));
-          assertEquals("Banana", category.select("imageB"));
-          assertEquals("Cherry", category.select("imageC"));
-      } // testAddSelect()
-      catch (KeyNotFoundException ex) {
-      }
+      AACCategory category = new AACCategory("testAddSelect"); // testAddSelect()
+      category.addItem("imageA", "Apple");
+      category.addItem("imageB", "Banana");
+      category.addItem("imageC", "Cherry");
+      assertEquals("Apple", category.select("imageA"));
+      assertEquals("Banana", category.select("imageB"));
+      assertEquals("Cherry", category.select("imageC"));
   }
 
   /**

@@ -1,5 +1,3 @@
-import edu.grinnell.csc207.util.KeyNotFoundException;
-import edu.grinnell.csc207.util.NullKeyException;
 import java.util.NoSuchElementException;
 
 /**
@@ -43,11 +41,10 @@ public interface AACPage {
 	 * @param imageLoc the location where the image is stored
 	 * @return if there is text to be spoken, it returns that information, otherwise
 	 * it returns the empty string
-	 * @throws KeyNotFoundException 
 	 * @throws NoSuchElementException if the image provided is not in the current 
 	 * category
 	 */
-	public String select(String imageLoc) throws KeyNotFoundException;
+	public String select(String imageLoc) throws NoSuchElementException;
 	
 	
 	/**
